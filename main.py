@@ -255,11 +255,12 @@ def main(page: ft.Page):
                             ],
                         ),
                     ),
+                    
                     ft.Container(
                         bgcolor=ft.colors.GREY_900,
                         alignment=ft.alignment.center,
-                        # padding=200,
                         content=ft.Column(
+                            alignment=ft.alignment.center,
                             controls=[
                                 ft.Text(
                                     "Featured Templates",
@@ -273,13 +274,20 @@ def main(page: ft.Page):
                                     color=ft.colors.WHITE70,
                                     size=15,
                                 ),
-                                ft.Row(
-                                    width=800,
-                                    # spacing=5,
-                                    # padding=1,
+                                
+                                ft.GridView(
+                                    #expand=1,
+                                    horizontal=True,
+                                    height=400,
+                                    width=1200,
+                                    spacing=2,
+                                    padding=3,
+                                    col=2,
+                                    
                                     controls=[
                                         ft.Container(
                                             border_radius=10,
+                                            padding=5,
                                             content=ft.Column(
                                                 spacing=1,
                                                 controls=[
@@ -291,12 +299,73 @@ def main(page: ft.Page):
                                                             fit=ft.ImageFit.FILL,
                                                             src="assets/marketplace_items_1682278859558.jpg",
                                                         ),
+                                                        on_click=lambda e: page.go("/search"),
                                                     ),
                                                     ft.Column(
                                                         spacing=1,
                                                         controls=[
                                                             ft.Text(
                                                                 "Health & Fitness App Template",
+                                                                width=800,
+                                                                color=ft.colors.WHITE,
+                                                                size=15,
+                                                            ),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                        ft.Container(
+                                            alignment=ft.alignment.center,
+                                            border_radius=10,
+                                            content=ft.Column(
+                                                spacing=1,
+                                                controls=[
+                                                    ft.Container(
+                                                        border_radius=10,
+                                                        width=300,
+                                                        height=200,
+                                                        content=ft.Image(
+                                                            fit=ft.ImageFit.FILL,
+                                                            src="assets/marketplace_items_1676727415510.png",
+                                                        ),
+                                                        on_click=lambda e: page.go("/search"),
+                                                    ),
+                                                    ft.Column(
+                                                        spacing=1,
+                                                        controls=[
+                                                            ft.Text(
+                                                                "Flowtify (Spotify Redesign)",
+                                                                width=800,
+                                                                color=ft.colors.WHITE,
+                                                                size=15,
+                                                            ),
+                                                        ],
+                                                    ),
+                                                ],
+                                            ),
+                                        ),
+                                        ft.Container(
+                                            alignment=ft.alignment.center,
+                                            border_radius=10,
+                                            content=ft.Column(
+                                                spacing=1,
+                                                controls=[
+                                                    ft.Container(
+                                                        border_radius=10,
+                                                        width=300,
+                                                        height=200,
+                                                        content=ft.Image(
+                                                            fit=ft.ImageFit.FILL,
+                                                            src="assets/marketplace_items_1697893921410.jpg",
+                                                        ),
+                                                        on_click=lambda e: page.go("/search"),
+                                                    ),
+                                                    ft.Column(
+                                                        spacing=1,
+                                                        controls=[
+                                                            ft.Text(
+                                                                "The Best Groceries App UI",
                                                                 width=800,
                                                                 color=ft.colors.WHITE,
                                                                 size=15,
