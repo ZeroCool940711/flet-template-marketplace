@@ -1,3 +1,4 @@
+import logging
 import flet as ft
 
 from utils import first_run, get_options
@@ -7,6 +8,111 @@ if_first_run = first_run()
 options = get_options()
 
 # print(options)
+
+
+class Appbar(ft.UserControl):
+    # def __ini__(self, page: ft.Page):
+    # super().__init__()
+    # self.page = page
+
+    def build(self):
+        app_bar = ft.AppBar(
+            leading_width=40,
+            automatically_imply_leading=False,
+            title=ft.TextButton(
+                expand=10,
+                content=ft.Text(
+                    options["app_title"],
+                    color=ft.colors.WHITE,
+                    size=20,
+                ),
+                style=ft.ButtonStyle(
+                    shape=ft.RoundedRectangleBorder(),
+                ),
+                on_click=lambda e: e.page.go("/"),
+            ),
+            bgcolor=ft.colors.GREY_900,
+            actions=[
+                ft.TextButton(
+                    expand=1,
+                    text="Home",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/"),
+                ),
+                ft.TextButton(
+                    expand=1,
+                    text="Search",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/search"),
+                ),
+                ft.TextButton(
+                    expand=1,
+                    text="Template Apps",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/templates"),
+                ),
+                ft.TextButton(
+                    expand=1,
+                    text="Page and Components",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/page_and_components"),
+                ),
+                ft.TextButton(
+                    expand=1,
+                    text="Contact Us",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/contact_us"),
+                ),
+                ft.IconButton(
+                    icon=ft.icons.SETTINGS,
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(),
+                    ),
+                    on_click=lambda e: e.page.go("/settings"),
+                ),
+            ],
+        )
+        return app_bar
+
+
+class SearchBar(ft.UserControl):
+    def build(self):
+        search_bar = ft.SearchBar(
+            bar_hint_text="Search for a template.",
+            controls=[
+                ft.Text(
+                    "Search",
+                    color=ft.colors.WHITE,
+                    size=20,
+                ),
+            ],
+            bar_leading=ft.Icon(
+                name=ft.icons.SEARCH,
+                color=ft.colors.WHITE,
+            ),
+            bar_trailing=[
+                ft.TextButton(
+                    text="Search",
+                    style=ft.ButtonStyle(
+                        bgcolor=ft.colors.BLUE,
+                        shape=ft.RoundedRectangleBorder(radius=10),
+                    ),
+                    on_click=lambda e: e.page.go(f"/search/{search_bar.value}"),
+                ),
+            ],
+            on_submit=lambda e: e.page.go(f"/search/{search_bar.value}"),
+        )
+        return search_bar
 
 
 def main(page: ft.Page):
@@ -43,72 +149,7 @@ def main(page: ft.Page):
             # not implemented yet
             pass
 
-    app_bar = ft.AppBar(
-        leading_width=40,
-        automatically_imply_leading=False,
-        title=ft.TextButton(
-            expand=10,
-            content=ft.Text(
-                options["app_title"],
-                color=ft.colors.WHITE,
-                size=20,
-            ),
-            style=ft.ButtonStyle(
-                shape=ft.RoundedRectangleBorder(),
-            ),
-            on_click=lambda e: page.go("/"),
-        ),
-        bgcolor=ft.colors.GREY_900,
-        actions=[
-            ft.TextButton(
-                expand=1,
-                text="Home",
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/"),
-            ),
-            ft.TextButton(
-                expand=1,
-                text="Search",
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/search"),
-            ),
-            ft.TextButton(
-                expand=1,
-                text="Template Apps",
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/templates"),
-            ),
-            ft.TextButton(
-                expand=1,
-                text="Page and Components",
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/page_and_components"),
-            ),
-            ft.TextButton(
-                expand=1,
-                text="Contact Us",
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/contact_us"),
-            ),
-            ft.IconButton(
-                icon=ft.icons.SETTINGS,
-                style=ft.ButtonStyle(
-                    shape=ft.RoundedRectangleBorder(),
-                ),
-                on_click=lambda e: page.go("/settings"),
-            ),
-        ],
-    )
+    app_bar = Appbar().build()
 
     def route_change(e):
         print("Route change:", e.route)
@@ -122,7 +163,7 @@ def main(page: ft.Page):
                 controls=[
                     ft.Container(
                         alignment=ft.alignment.center,
-                        height=500,
+                        height=400,
                         padding=0,
                         gradient=ft.LinearGradient(
                             tile_mode=ft.GradientTileMode.REPEATED,
@@ -154,29 +195,7 @@ def main(page: ft.Page):
                                     size=25,
                                     text_align=ft.alignment.center,
                                 ),
-                                ft.SearchBar(
-                                    bar_hint_text="Search for a template.",
-                                    controls=[
-                                        ft.Text(
-                                            "Search",
-                                            color=ft.colors.WHITE,
-                                            size=20,
-                                        ),
-                                    ],
-                                    bar_trailing=[
-                                        ft.TextButton(
-                                            text="Search",
-                                            style=ft.ButtonStyle(
-                                                bgcolor=ft.colors.BLUE,
-                                                shape=ft.RoundedRectangleBorder(
-                                                    radius=10
-                                                ),
-                                            ),
-                                            on_click=lambda e: page.go("/search"),
-                                        ),
-                                    ],
-                                    on_submit=lambda e: page.go("/search"),
-                                ),
+                                SearchBar(),
                                 ft.Container(
                                     padding=5,
                                     width=800,
@@ -255,10 +274,24 @@ def main(page: ft.Page):
                             ],
                         ),
                     ),
-                    
                     ft.Container(
-                        bgcolor=ft.colors.GREY_900,
+                        bgcolor="#1B1E24",
                         alignment=ft.alignment.center,
+                        # padding=1,
+                        # gradient=ft.LinearGradient(
+                        #     tile_mode=ft.GradientTileMode.REPEATED,
+                        #     colors=[
+                        #         "#161C1E",
+                        #         "#312940",
+                        #         "#282542",
+                        #         "#433031",
+                        #         "#41302E",
+                        #         "#26223C",
+                        #         "#3E2F2F",
+                        #         "#41302F",
+                        #         "#161C1E",
+                        #     ],
+                        # ),
                         content=ft.Column(
                             alignment=ft.alignment.center,
                             controls=[
@@ -274,32 +307,34 @@ def main(page: ft.Page):
                                     color=ft.colors.WHITE70,
                                     size=15,
                                 ),
-                                
                                 ft.GridView(
-                                    #expand=1,
+                                    # expand=1,
                                     horizontal=True,
-                                    height=400,
+                                    height=300,
                                     width=1200,
-                                    spacing=2,
+                                    spacing=10,
                                     padding=3,
                                     col=2,
-                                    
                                     controls=[
                                         ft.Container(
+                                            bgcolor="#262D34",
                                             border_radius=10,
-                                            padding=5,
+                                            padding=3,
+                                            alignment=ft.alignment.center,
                                             content=ft.Column(
-                                                spacing=1,
+                                                spacing=5,
                                                 controls=[
                                                     ft.Container(
                                                         border_radius=10,
-                                                        width=300,
-                                                        height=200,
+                                                        width=400,
+                                                        height=230,
                                                         content=ft.Image(
                                                             fit=ft.ImageFit.FILL,
                                                             src="assets/marketplace_items_1682278859558.jpg",
                                                         ),
-                                                        on_click=lambda e: page.go("/search"),
+                                                        on_click=lambda e: page.go(
+                                                            "/search"
+                                                        ),
                                                     ),
                                                     ft.Column(
                                                         spacing=1,
@@ -317,19 +352,22 @@ def main(page: ft.Page):
                                         ),
                                         ft.Container(
                                             alignment=ft.alignment.center,
+                                            bgcolor="#262D34",
                                             border_radius=10,
                                             content=ft.Column(
                                                 spacing=1,
                                                 controls=[
                                                     ft.Container(
                                                         border_radius=10,
-                                                        width=300,
-                                                        height=200,
+                                                        width=400,
+                                                        height=230,
                                                         content=ft.Image(
                                                             fit=ft.ImageFit.FILL,
                                                             src="assets/marketplace_items_1676727415510.png",
                                                         ),
-                                                        on_click=lambda e: page.go("/search"),
+                                                        on_click=lambda e: page.go(
+                                                            "/search"
+                                                        ),
                                                     ),
                                                     ft.Column(
                                                         spacing=1,
@@ -347,19 +385,22 @@ def main(page: ft.Page):
                                         ),
                                         ft.Container(
                                             alignment=ft.alignment.center,
+                                            bgcolor="#262D34",
                                             border_radius=10,
                                             content=ft.Column(
                                                 spacing=1,
                                                 controls=[
                                                     ft.Container(
                                                         border_radius=10,
-                                                        width=300,
-                                                        height=200,
+                                                        width=400,
+                                                        height=230,
                                                         content=ft.Image(
                                                             fit=ft.ImageFit.FILL,
                                                             src="assets/marketplace_items_1697893921410.jpg",
                                                         ),
-                                                        on_click=lambda e: page.go("/search"),
+                                                        on_click=lambda e: page.go(
+                                                            "/search"
+                                                        ),
                                                     ),
                                                     ft.Column(
                                                         spacing=1,
@@ -470,7 +511,13 @@ def main(page: ft.Page):
     page.go(page.route)
 
 
-ft.app(
-    target=main,
-    # view=ft.WEB_BROWSER
-)
+if __name__ == "__main__":
+    # added logging to see what's going on under the hood (optional)
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+
+    ft.app(
+        target=main,
+        # view=ft.WEB_BROWSER
+    )
